@@ -100,6 +100,18 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'point_increments' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/point_increments.log'),
+            'level' => 'info',
+        ],
+
+        'point_decrements' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/point_decrements.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];
