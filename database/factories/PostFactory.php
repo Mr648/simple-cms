@@ -22,12 +22,14 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+
         return [
             'user_id' => User::all()->random(1)->first()->id,
-            'title' => $this->faker->title(),
+            'title' => $this->faker->sentence(1),
             'slug' => $this->faker->slug(3),
             'excerpt' => $this->faker->sentence(8),
             'content' => $this->faker->paragraph(4),
+            'image_path' => rand(0, 2) > 1 ? null : 'images/' . rand(1, 5) . '.png',
         ];
     }
 }

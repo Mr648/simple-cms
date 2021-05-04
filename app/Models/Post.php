@@ -8,4 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')
+            ->whereNull('parent_id');
+    }
+
+    public function getImageAttribute()
+    {
+        return $this->image_path;
+    }
 }
