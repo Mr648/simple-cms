@@ -41,7 +41,7 @@
                     </div>
                     <div class="card-body">
                         <h5>Leave a comment</h5>
-                        <form method="post" action="#">
+                        <form method="post" action="{{route('comments.store')}}">
                             @csrf
                             <div class="form-group">
                                 <input type="text" name="comment" class="form-control"/>

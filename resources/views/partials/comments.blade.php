@@ -1,5 +1,5 @@
 @foreach($comments as $comment)
-    <div class="card my-2">
+    <div class="card my-3 ml-3 border-dark">
         <div class="card-header">
             <div class="card-title">
                 <strong>{{ $comment->user->name }}</strong>
@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form method="post" action="/">
+            <form method="post" action="{{route('replies.store')}}">
                 @csrf
                 <div class="form-group">
                     <input type="text" name="comment" class="form-control"/>

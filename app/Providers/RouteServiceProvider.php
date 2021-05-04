@@ -61,9 +61,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('comment', function (Request $request) {
-            return $request->user().'~post:'.$request->input('post_id')
-                ? Limit::none()
-                : Limit::perMinute(1);
+            return Limit::perMinute(1);
         });
     }
 }

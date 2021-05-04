@@ -6,13 +6,14 @@ use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('show');
     }
 
     /**
@@ -72,6 +73,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if (!Gate::allows('edit-post', $post)) {
+            abort(403);
+        }
         return view('posts.edit', compact('post'));
     }
 
@@ -83,10 +87,16 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $this->check($request);
+        if (!Gate::allows('update-post', $post)) {
+            abort(403);
+        }
+
+        $this->check($request); // validation
+
         if ($request->hasFile('image') && File::exists($post->image)) {
             File::delete($post->image);
         }
+
         $post->update([
             'title' => $request->input('title'),
             'slug' => $request->input('slug'),
@@ -94,6 +104,7 @@ class PostController extends Controller
             'content' => $request->input('content'),
             'image_path' => $this->storeImage($request),
         ]);
+
         return redirect()->back()->with(['success' => [
             'message' => 'Post Updated successfully',
             'link' => route('posts.show', $post->slug),
@@ -105,14 +116,14 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if (auth()->user()->hasPost($post->slug)) {
-            if (File::exists($post->image)) {
-                File::delete($post->image);
-            }
-            $post->delete();
-            return redirect(route('posts.index'));
+        if (!Gate::allows('delete-post', $post)) {
+            abort(403);
         }
-        abort(403);
+        if (File::exists($post->image)) {
+            File::delete($post->image);
+        }
+        $post->delete();
+        return redirect(route('posts.index'));
     }
 
 

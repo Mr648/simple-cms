@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,7 +19,6 @@ use App\Http\Controllers\PostController;
 Route::get('/', [WebsiteController::class, 'index']);
 Route::get('/about', [WebsiteController::class, 'about'])->name('about');
 
-//Auth::routes();
 Auth::routes([
     'register' => false,
     'reset' => false,
@@ -25,5 +26,8 @@ Auth::routes([
 ]);
 
 Route::resource('/posts', PostController::class);
+
+Route::post('/comments/store', [CommentController::class,'store'])->name('comments.store');
+Route::post('/comments/reply', [CommentController::class,'reply'])->name('replies.store');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
