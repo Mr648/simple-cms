@@ -1,13 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.app')
 
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8 text-center">
-                {{$posts->links()}}
-            </div>
-            <br>
-            <br>
             <div class="card-columns">
                 @foreach($posts as $post)
                     <div class="card">
@@ -16,7 +11,6 @@
                                  alt="{{$post->title}}">
                             <hr>
                         @endif
-
                         <div class="card-body">
                             <div class="card-title">{{$post->title}}</div>
                             <p class="card-subtitle">{{$post->excerpt}}</p>
@@ -31,9 +25,6 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
-            <div class="col-md-8 text-center">
-                {{$posts->links()}}
             </div>
         </div>
     </div>

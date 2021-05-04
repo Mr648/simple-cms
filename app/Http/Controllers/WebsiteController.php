@@ -9,7 +9,9 @@ class WebsiteController extends Controller
 {
     public function index()
     {
-        $posts = Post::withCount('comments')->simplePaginate(10);
+        $posts = Post::with(['user' => function ($query) {
+            $query->select('id','name')->get('name');
+        }])->withCount('comments')->simplePaginate(10);
         return view('welcome', compact('posts'));
     }
 

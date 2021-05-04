@@ -41,4 +41,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isBlogger()
+    {
+        return $this->role === 'blogger';
+    }
+
+    public function hasPost($slug)
+    {
+        return $this->posts()->where('slug', $slug)->exists();
+    }
 }

@@ -9,8 +9,27 @@
                              alt="{{$post->title}}">
                     @endif
                     <div class="card-header">
+
                         <div class="card-title"><b>Title</b>
                             <h1>{{$post->title}}</h1></div>
+                        <div class="card-title"><b>Author: {{$post->user->name}}</b></div>
+                        @auth
+                            @if(auth()->user()->hasPost($post->slug))
+                                <ul class="nav nav-pills card-header-pills">
+                                    <li class="nav-item">
+                                        <a href="{{route('posts.edit',$post->slug)}}"
+                                           class="btn btn-outline-info">Edit</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <form action="{{route('posts.destroy',$post->slug)}}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input class="btn btn-outline-danger" type="submit" value="Delete">
+                                        </form>
+                                    </li>
+                                </ul>
+                            @endif
+                        @endauth
                     </div>
                     <div class="card-body">
                         <p class="card-text"><b>Excerpt</b>
@@ -19,7 +38,6 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">Total Comments: {{$post->comments()->count()}}</p>
-                        <a target="_parent" href="/" class="btn btn-dark">Back</a>
                     </div>
                     <div class="card-body">
                         <h5>Leave a comment</h5>
